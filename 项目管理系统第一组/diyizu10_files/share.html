@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0031)http://www.1316hr.com/org/share -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>无标题文档</title>
+<style>
+    .mark {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: -10;
+        opacity: 0;
+        transition: opacity 1.5s;
+        -webkit-transition: opacity 1.5s;
+    }
+
+    .tankuang {
+        width: 800px;
+        padding: 10px;
+        height: 200px;
+        position: fixed;
+        background: #fff;
+        border: 2px solid #EEE;
+        top: 200px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: none
+    }
+
+    .comeBack3 {
+        float: right;
+        font-size: 24px;
+        margin: 0;
+        cursor: pointer;
+        color: #4378b3;
+        -moz-transition: -moz-transform 0.5s;
+        -webkit-transition: -webkit-transform 0.5s;
+        -o-transition: -o-transform 0.5s;
+    }
+
+    .comeBack3:hover {
+        transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -webkit-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+    }
+
+    .tankuang input {
+        border: #4378b3 1px solid;
+        /*border-right: none;*/
+        display: inline-block;
+        padding: 10px;
+        font-size: 12px;
+        margin: 12px 0;
+        width: 500px
+    }
+
+    .yaoqing {
+        margin-left: 40px
+    }
+
+    .tankuang a {
+        background: #4378b3;
+        color: #FFF;
+        font-size: 12px;
+        padding: 12px;
+        text-decoration: none;
+        -moz-transition: all 0.5s ease-out;
+        -ms-transition: all 0.5s ease-out;
+        -o-transition: all 0.5s ease-out;
+        transition: all 0.5s ease-out;
+        margin-left: -20px;
+    }
+
+    .tankuang a:hover {
+        background: #8cbaff
+    }
+</style></head>
+
+<body>
+
+<div style="margin:100px auto; width:700px">
+    <p style="color:#4378b3; padding:20px; border:2px #4378b3 solid;border-radius:20px; line-height:26px; margin:20px 0">
+        好消息，好消息，积分商城上线啦！！！<br>即日起邀请好友注册得积分、换礼品，快拉上小伙伴一起拿礼品吧！！！</p>
+
+    <input onmouseout="this.style.backgroundColor=&#39;#4378b3&#39;" onmouseover="this.style.backgroundColor=&#39;#8cbaff&#39;" onclick="tanC()" id="yaoq" type="button" value="分享链接" style=" padding:10px 20px; font-size:14px; background:#4378b3; border:none; color:#FFF;cursor:pointer;-moz-transition: all 0.5s ease-out;-ms-transition: all 0.5s ease-out;-o-transition: all 0.5s ease-out;transition: all 0.5s ease-out;">
+
+    <div class="mark" id="flowShow" onclick="tanN()"></div>
+    <section class="tankuang" id="tankuang">
+        <div class="comeBack3" onclick="tanN()">×</div>
+        <div class="yaoqing" style="margin-top:40px">
+            <span>邀请码推荐：</span>
+            <input id="biao1" value="www.benniaozaiqian.com">
+            <a href="http://benniaoyizhi.com#" onclick="copyUrl()">复制分享</a>
+        </div>
+        <div class="yaoqing">
+            <span>超链接推荐：</span>
+            <input id="biao2" value="#">
+            <a href="#" onclick="copyUr2()">复制分享</a>
+        </div>
+    </section>
+
+
+    <div style="margin-top:50px">
+        <p style=" border-top: #999 1px solid; padding-top:15px; color:#4378b3;font-weight:bold; margin-top:60px">
+            活动说明：</p>
+        <p style=" font-size:12px; line-height:26px">
+            1、邀请好友注册，添加5名员工，即可获得500积分。<br>
+            2、被邀请者注册即送400积分。<br>
+            3、企业名称、员工信息必须真实有效。<br>
+            4、笨鸟在钱科技保留在法律允许的范围内对本活动说明进行解释的权利
+        </p>
+    </div>
+</div>
+<script type="text/javascript">
+
+    // 弹窗相关点击事件
+    var tanKuang = document.getElementById("tankuang");
+    function tanC() {
+        tanKuang.style.display = 'block';
+        flowShow.style.opacity = 1;
+        tanKuang.style.zIndex = 10;
+        flowShow.style.zIndex = 9;
+    }
+    function tanN() {
+        tanKuang.style.display = 'none';
+        flowShow.style.opacity = 0;
+        flowShow.style.zIndex = -9;
+    }
+
+
+    function copyUrl() {
+        var Url = document.getElementById("biao1");
+        Url.select();
+        document.execCommand("Copy");
+        alert("复制成功，赶紧分享给你的小伙伴吧!");
+    }
+    function copyUr2() {
+        var Ur2 = document.getElementById("biao2");
+        Ur2.select();
+        document.execCommand("Copy");
+        alert("复制成功，赶紧分享给你的小伙伴吧!");
+    }
+
+</script>
+
+</body></html>

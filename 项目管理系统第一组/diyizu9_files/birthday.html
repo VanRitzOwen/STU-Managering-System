@@ -1,0 +1,240 @@
+
+<!-- saved from url=(0037)http://www.1316hr.com/remind/birthday -->
+<html class="panel-fit"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>生日提醒</title>
+    
+
+
+
+<!-- easyui 主题 -->
+<link rel="stylesheet" href="./easyui.css">
+<!-- easyui 图标 -->
+<link rel="stylesheet" href="./icon.css">
+<link rel="stylesheet" href="./icons.css">
+<link rel="stylesheet" href="./icon-standard.css">
+<!-- JQuery -->
+<script type="text/javascript" src="./jquery.min(1).js"></script>
+<!-- easyui -->
+<script type="text/javascript" src="./jquery.easyui.min.js"></script>
+<script type="text/javascript" src="./easyui-lang-zh_CN.js"></script>
+<!-- easyui扩展JS -->
+<script type="text/javascript" src="./easyui-util.js"></script>
+
+<script type="text/javascript" src="./util.js"></script>
+
+<script>
+    window.ctx = "";
+</script>
+<style>
+    td{
+        font-size: 12px;
+        height: 18px;
+        line-height: 18px;
+        margin: 0;
+        overflow: hidden;
+        padding: 0 4px;
+        white-space: nowrap;
+        word-wrap: normal;
+    }
+</style>
+
+
+
+
+
+
+    <script>
+        var personnel_search_closed = true;
+        var personnel_datagrid;
+        $(function () {
+            personnel_datagrid = $("#personnel_datagrid");
+            personnel_datagrid.datagrid({
+                fit: true, //表格宽高自适应
+//                border: false, //不显示边框
+                striped: true, //表格隔行变色
+                rownumbers: true, //显示行号
+                fitColumns: true, //列宽度自适应
+                pagination: true, //显示分页条组件
+                singleSelect: true,//只允许选择一行
+                url: window.ctx + '/personnel/datagrid', //加载表格数据的url
+                idField: 'id', //主键字段
+                sortName: 'id',
+                sortOrder: 'desc',
+                pageSize: 20, //每页显示行
+                pageList: [10, 20, 30, 50, 100],//选择每页选择行数列表
+                loadMsg: '数据正在加载,请稍后...', //ajax加载时的提示信息
+                queryParams: {
+                    status: 1
+                },
+                columns: [
+                    [
+                        {
+                            field: 'id',
+                            title: '编号',
+                            hidden: true
+                        },
+                        {
+                            field: 'regularDate',
+                            title: '转正日期',
+                            hidden: true
+                        },
+                        {
+                            field: 'leaveDate',
+                            title: '离职日期',
+                            hidden: true
+                        },
+                        {
+                            sortable: true,
+                            field: 'name',
+                            title: '姓名',
+                            width: 50
+                        },
+                        {
+                            sortable: true,
+                            field: 'sex',
+                            title: '性别',
+                            width: 50,
+                            formatter: function (value, row, index) {
+                                if (value == 1) {
+                                    return "男";
+                                } else if (value == 0) {
+                                    return "女";
+                                } else {
+                                    return "";
+                                }
+                            }
+                        },
+                        {
+                            field: 'deptName',
+                            title: '部门',
+                            width: 50
+                        },
+                        {
+                            field: 'job',
+                            title: '职位',
+                            width: 50
+                        },
+                        {
+                            field: 'joinDate',
+                            title: '入职时间',
+                            width: 80,
+                            formatter: function (value, row, index) {
+                                return new Date(value).format("yyyy-MM-dd");
+                            }
+                        },
+                        {
+                            field: 'type',
+                            title: '类型',
+                            width: 100,
+                            formatter: function (value, row, index) {
+                                if(row.leaveDate) {
+                                    return "离职";
+                                }
+                                if(new Date() >= row.regularDate){
+                                    return "正式";
+
+                                }else {
+                                    return "试用";
+                                }
+                            }
+                        },
+                        {
+                            field: 'tel',
+                            title: '联系方式',
+                            width: 80
+                        },
+                        {
+                            field: 'email',
+                            title: '常用邮箱',
+                            width: 100
+                        },
+                        {
+                            field: 'birthday',
+                            title: '生日',
+                            width: 80,
+                            formatter: function (value, row, index) {
+                                if(!value) return "";
+                                return new Date(value).format("yyyy-MM-dd");
+                            }
+                        },
+                        {
+                            field: ' ',
+                            title: '操作',
+                            width: 60,
+                            formatter:function(value, row, index){
+                                var id = row.id;
+                                var btn1 = "<a class='linkbutton1' href='/personnel/view/" + id + "'" +
+                                        "style='margin-left:20px;' target='_blank'>详情</a>";
+                                return btn1 ;
+                            }
+
+                        }
+                    ]
+                ],
+                onLoadSuccess:function(data){
+                    $('.linkbutton1').linkbutton({iconCls:'icon-search'});
+                }
+            });
+        });
+        //搜索按钮事件
+        function personnel_form_search_submit() {
+            var params = $("#personnel_form_search").serializeForm();
+            personnel_datagrid.datagrid("load", params);
+        }
+        //重置搜索事件
+        /*function personnel_form_search_reset() {
+            $("#personnel_form_search").form("reset");
+            personnel_datagrid.datagrid("load", {});
+        }*/
+    </script>
+    <style>
+        #personnel_form_search td {
+            text-align: right;
+            padding: 3px 5px;
+        }
+    </style>
+</head>
+<body class="panel-noscroll">
+<div id="personnel_layout" class="easyui-layout layout easyui-fluid" data-options="fit:true,border:false" style="width: 1660px; height: 813px;">
+    <div class="panel layout-panel layout-panel-north" style="width: 1660px; left: 0px; top: 0px;"><div id="personnel_search" style="overflow: hidden; width: 1660px; height: 50px;" data-options="region:&#39;north&#39;,border:false,collapsed:false,iconCls:&#39;filter&#39;" title="" class="panel-body panel-body-noheader panel-body-noborder layout-body">
+        <form id="personnel_form_search" style="margin:10px">
+            <table>
+                <tbody><tr>
+                    <td>生日月份：</td>
+                    <td>
+                        <input class="easyui-combobox combobox-f combo-f textbox-f" data-options="editable: false,valueField: &#39;id&#39;,textField: &#39;text&#39;,panelHeight:100,
+                               data: [
+                                   {id: &#39;1&#39;,text: &#39;1月份&#39;},{id: &#39;2&#39;,text: &#39;2月份&#39;},{id: &#39;3&#39;,text: &#39;3月份&#39;},
+                                   {id: &#39;4&#39;,text: &#39;4月份&#39;},{id: &#39;5&#39;,text: &#39;5月份&#39;},{id: &#39;6&#39;,text: &#39;6月份&#39;},
+                                   {id: &#39;7&#39;,text: &#39;7月份&#39;},{id: &#39;8&#39;,text: &#39;8月份&#39;},{id: &#39;9&#39;,text: &#39;9月份&#39;},
+                                   {id: &#39;10&#39;,text: &#39;10月份&#39;},{id: &#39;11&#39;,text: &#39;11月份&#39;},{id: &#39;12&#39;,text: &#39;12月份&#39;}
+                               ],onSelect:personnel_form_search_submit" textboxname="birthdayMonth" style="display: none;" comboname="birthdayMonth"><span class="textbox combo" style="width: 171px; height: 20px;"><span class="textbox-addon textbox-addon-right" style="right: 0px;"><a href="javascript:void(0)" class="textbox-icon combo-arrow" icon-index="0" tabindex="-1" style="width: 18px; height: 20px;"></a></span><input type="text" class="textbox-text validatebox-text textbox-prompt" autocomplete="off" readonly="readonly" placeholder="" style="margin-left: 0px; margin-right: 18px; padding-top: 3px; padding-bottom: 3px; width: 145px;"><input type="hidden" class="textbox-value" name="birthdayMonth" value=""></span>
+                    </td>
+                    <td>
+                        
+                    </td>
+                </tr>
+            </tbody></table>
+        </form>
+    </div></div>
+    <div class="panel layout-panel layout-panel-center" style="width: 1660px; left: 0px; top: 50px;"><div data-options="region:&#39;center&#39;,border:false" title="" class="panel-body panel-body-noheader panel-body-noborder layout-body panel-noscroll" style="width: 1660px; height: 763px;">
+        <div class="panel datagrid easyui-fluid" style="width: 1660px;"><div class="datagrid-wrap panel-body panel-body-noheader" title="" style="width: 1658px; height: 761px;"><div class="datagrid-view" style="width: 1658px; height: 730px;"><div class="datagrid-view1" style="width: 31px;"><div class="datagrid-header" style="width: 31px; height: 24px;"><div class="datagrid-header-inner" style="display: block;"><table class="datagrid-htable" border="0" cellspacing="0" cellpadding="0" style="height: 25px;"><tbody><tr class="datagrid-header-row"><td rowspan="0"><div class="datagrid-header-rownumber"></div></td></tr></tbody></table></div></div><div class="datagrid-body" style="width: 31px; margin-top: 0px; height: 705px;"><div class="datagrid-body-inner"><table class="datagrid-btable" cellspacing="0" cellpadding="0" border="0"><tbody></tbody></table></div></div><div class="datagrid-footer" style="width: 31px;"><div class="datagrid-footer-inner" style="display: none;"></div></div></div><div class="datagrid-view2" style="width: 1627px;"><div class="datagrid-header" style="width: 1627px; height: 24px;"><div class="datagrid-header-inner" style="display: block;"><table class="datagrid-htable" border="0" cellspacing="0" cellpadding="0" style="height: 25px;"><tbody><tr class="datagrid-header-row"><td field="id" style="display: none;"><div class="datagrid-cell datagrid-sort-desc datagrid-cell-c1-id"><span>编号</span><span class="datagrid-sort-icon">&nbsp;</span></div></td><td field="regularDate" style="display: none;"><div class="datagrid-cell datagrid-cell-c1-regularDate"><span>转正日期</span><span class="datagrid-sort-icon">&nbsp;</span></div></td><td field="leaveDate" style="display: none;"><div class="datagrid-cell datagrid-cell-c1-leaveDate"><span>离职日期</span><span class="datagrid-sort-icon">&nbsp;</span></div></td><td field="name"><div class="datagrid-cell datagrid-sort datagrid-cell-c1-name" style=""><span>姓名</span><span class="datagrid-sort-icon">&nbsp;</span></div></td><td field="sex"><div class="datagrid-cell datagrid-sort datagrid-cell-c1-sex" style=""><span>性别</span><span class="datagrid-sort-icon">&nbsp;</span></div></td><td field="deptName"><div class="datagrid-cell datagrid-cell-c1-deptName" style=""><span>部门</span><span class="datagrid-sort-icon">&nbsp;</span></div></td><td field="job"><div class="datagrid-cell datagrid-cell-c1-job" style=""><span>职位</span><span class="datagrid-sort-icon">&nbsp;</span></div></td><td field="joinDate"><div class="datagrid-cell datagrid-cell-c1-joinDate" style=""><span>入职时间</span><span class="datagrid-sort-icon">&nbsp;</span></div></td><td field="type"><div class="datagrid-cell datagrid-cell-c1-type" style=""><span>类型</span><span class="datagrid-sort-icon">&nbsp;</span></div></td><td field="tel"><div class="datagrid-cell datagrid-cell-c1-tel" style=""><span>联系方式</span><span class="datagrid-sort-icon">&nbsp;</span></div></td><td field="email"><div class="datagrid-cell datagrid-cell-c1-email" style=""><span>常用邮箱</span><span class="datagrid-sort-icon">&nbsp;</span></div></td><td field="birthday"><div class="datagrid-cell datagrid-cell-c1-birthday" style=""><span>生日</span><span class="datagrid-sort-icon">&nbsp;</span></div></td><td field=" "><div class="datagrid-cell datagrid-cell-c1--" style=""><span>操作</span><span class="datagrid-sort-icon">&nbsp;</span></div></td></tr></tbody></table></div></div><div class="datagrid-body" style="width: 1627px; margin-top: 0px; height: 705px; overflow-x: hidden;"><table class="datagrid-btable" cellspacing="0" cellpadding="0" border="0"><tbody><tr id="datagrid-row-r1-2-0" class="" style="height: 1px; border-color: transparent; background: transparent;"><td field="id" style="display: none; height: 1px; border-color: transparent; background: transparent;"><div style="height: 1px; border-color: transparent; background: transparent;" class="datagrid-cell datagrid-cell-c1-id"></div></td><td field="regularDate" style="display: none; height: 1px; border-color: transparent; background: transparent;"><div style="height: 1px; border-color: transparent; background: transparent;" class="datagrid-cell datagrid-cell-c1-regularDate"></div></td><td field="leaveDate" style="display: none; height: 1px; border-color: transparent; background: transparent;"><div style="height: 1px; border-color: transparent; background: transparent;" class="datagrid-cell datagrid-cell-c1-leaveDate"></div></td><td field="name" style="height: 1px; border-color: transparent; background: transparent;"><div style="height: 1px; border-color: transparent; background: transparent;" class="datagrid-cell datagrid-cell-c1-name"></div></td><td field="sex" style="height: 1px; border-color: transparent; background: transparent;"><div style="height: 1px; border-color: transparent; background: transparent;" class="datagrid-cell datagrid-cell-c1-sex"></div></td><td field="deptName" style="height: 1px; border-color: transparent; background: transparent;"><div style="height: 1px; border-color: transparent; background: transparent;" class="datagrid-cell datagrid-cell-c1-deptName"></div></td><td field="job" style="height: 1px; border-color: transparent; background: transparent;"><div style="height: 1px; border-color: transparent; background: transparent;" class="datagrid-cell datagrid-cell-c1-job"></div></td><td field="joinDate" style="height: 1px; border-color: transparent; background: transparent;"><div style="height: 1px; border-color: transparent; background: transparent;" class="datagrid-cell datagrid-cell-c1-joinDate"></div></td><td field="type" style="height: 1px; border-color: transparent; background: transparent;"><div style="height: 1px; border-color: transparent; background: transparent;" class="datagrid-cell datagrid-cell-c1-type"></div></td><td field="tel" style="height: 1px; border-color: transparent; background: transparent;"><div style="height: 1px; border-color: transparent; background: transparent;" class="datagrid-cell datagrid-cell-c1-tel"></div></td><td field="email" style="height: 1px; border-color: transparent; background: transparent;"><div style="height: 1px; border-color: transparent; background: transparent;" class="datagrid-cell datagrid-cell-c1-email"></div></td><td field="birthday" style="height: 1px; border-color: transparent; background: transparent;"><div style="height: 1px; border-color: transparent; background: transparent;" class="datagrid-cell datagrid-cell-c1-birthday"></div></td><td field=" " style="height: 1px; border-color: transparent; background: transparent;"><div style="height: 1px; border-color: transparent; background: transparent;" class="datagrid-cell datagrid-cell-c1--"></div></td></tr></tbody></table></div><div class="datagrid-footer" style="width: 1627px;"><div class="datagrid-footer-inner" style="display: none;"></div></div></div><table id="personnel_datagrid" class="datagrid-f" style="display: none;"></table><style type="text/css" easyui="true">
+.datagrid-cell-c1-id{width:auto}
+.datagrid-cell-c1-regularDate{width:auto}
+.datagrid-cell-c1-leaveDate{width:auto}
+.datagrid-cell-c1-name{width:41px}
+.datagrid-cell-c1-sex{width:41px}
+.datagrid-cell-c1-deptName{width:41px}
+.datagrid-cell-c1-job{width:41px}
+.datagrid-cell-c1-joinDate{width:71px}
+.datagrid-cell-c1-type{width:91px}
+.datagrid-cell-c1-tel{width:71px}
+.datagrid-cell-c1-email{width:91px}
+.datagrid-cell-c1-birthday{width:71px}
+.datagrid-cell-c1--{width:51px}
+</style></div><div class="datagrid-pager pagination"><table cellspacing="0" cellpadding="0" border="0"><tbody><tr><td><select class="pagination-page-list"><option>10</option><option>20</option><option>30</option><option>50</option><option>100</option></select></td><td><div class="pagination-btn-separator"></div></td><td><a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain l-btn-disabled l-btn-plain-disabled" group="" id=""><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text l-btn-empty">&nbsp;</span><span class="l-btn-icon pagination-first">&nbsp;</span></span></a></td><td><a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain l-btn-disabled l-btn-plain-disabled" group="" id=""><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text l-btn-empty">&nbsp;</span><span class="l-btn-icon pagination-prev">&nbsp;</span></span></a></td><td><div class="pagination-btn-separator"></div></td><td><span style="padding-left:6px;">第</span></td><td><input class="pagination-num" type="text" value="1" size="2"></td><td><span style="padding-right:6px;">共0页</span></td><td><div class="pagination-btn-separator"></div></td><td><a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain l-btn-disabled l-btn-plain-disabled" group="" id=""><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text l-btn-empty">&nbsp;</span><span class="l-btn-icon pagination-next">&nbsp;</span></span></a></td><td><a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain l-btn-disabled l-btn-plain-disabled" group="" id=""><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text l-btn-empty">&nbsp;</span><span class="l-btn-icon pagination-last">&nbsp;</span></span></a></td><td><div class="pagination-btn-separator"></div></td><td><a href="javascript:void(0)" class="l-btn l-btn-small l-btn-plain" group="" id=""><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text l-btn-empty">&nbsp;</span><span class="l-btn-icon pagination-load">&nbsp;</span></span></a></td></tr></tbody></table><div class="pagination-info">显示0到0,共0记录</div><div style="clear:both;"></div></div></div></div>
+    </div></div>
+<div class="layout-split-proxy-h"></div><div class="layout-split-proxy-v"></div></div>
+
+
+<div class="panel combo-p" style="position: absolute; z-index: 10; display: none;"><div class="combo-panel panel-body panel-body-noheader" title=""><div id="_easyui_combobox_i1_0" class="combobox-item">1月份</div><div id="_easyui_combobox_i1_1" class="combobox-item">2月份</div><div id="_easyui_combobox_i1_2" class="combobox-item">3月份</div><div id="_easyui_combobox_i1_3" class="combobox-item">4月份</div><div id="_easyui_combobox_i1_4" class="combobox-item">5月份</div><div id="_easyui_combobox_i1_5" class="combobox-item">6月份</div><div id="_easyui_combobox_i1_6" class="combobox-item">7月份</div><div id="_easyui_combobox_i1_7" class="combobox-item">8月份</div><div id="_easyui_combobox_i1_8" class="combobox-item">9月份</div><div id="_easyui_combobox_i1_9" class="combobox-item">10月份</div><div id="_easyui_combobox_i1_10" class="combobox-item">11月份</div><div id="_easyui_combobox_i1_11" class="combobox-item">12月份</div></div></div></body></html>
