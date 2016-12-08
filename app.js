@@ -1,46 +1,29 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+/**
+ * @author yaobei on 2016/11/13
+ * @启动
+ */
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-
+//依赖包
+var express = require("express");
 var app = express();
+var router = require("./router/router.js");
+var db = require("./models/db.js");
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+//设置模板引擎
+app.set("view engine","ejs");
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//路由表
+app.get("/",router.showIndex);                                          //显示首页
+app.get("/addStudent",router.showAddStudent);                           //显示添加学生页面
+app.get("/doAddStudent",router.doAddStudent);                           //执行添加学生操作
+app.get("/editStudent/:sid",router.editStudent);                        //显示修改学生信息页面
+app.get("/doEditStudent/:sid",router.doEditStudent);                    //执行修改学生信息操作
+app.get("/removeStudent/:sid",router.removeStudent);                    //执行删除学生信息操作
+app.get("/addKecheng",router.showAddKecheng);                           //显示添加课程页面
+app.get("/doAddKecheng",router.doAddKecheng);                           //执行添加课程操作
+app.get("/removeKecheng/:kid",router.removeKecheng);                    //执行删除课程操作
 
-app.use('/', index);
-app.use('/users', users);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
+app.listen(8000);
 module.exports = app;

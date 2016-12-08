@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加学生信息</title>
+</head>
+<body>
+    <span>已有课程：</span>
+    <table>
+        <tr>
+            <td>课程id</td>
+            <td>课程名</td>
+            <td>操作</td>
+        </tr>
+        <% for(var i = 0 ; i < kecheng.length ; i++){%>
+        <tr>
+            <td><%=kecheng[i].kid%></td>
+            <td><%=kecheng[i].name%></td>
+            <td>
+                <a href="/removeKecheng/<%=kecheng[i].kid%>">删除</a>
+            </td>
+        </tr>
+        <%}%>
+    </table>
+    <form action="/doAddKecheng" method="get">
+        <p>
+            课程id
+            <input type="text" name="kid"/>
+        </p>
+        <p>
+            课程名
+            <input type="text" name="name"/>
+        </p>
+        <p>
+            <input type="submit"/>
+        </p>
+    </form>
+</body>
+</html>
