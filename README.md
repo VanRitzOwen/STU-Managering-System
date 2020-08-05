@@ -1,7 +1,6 @@
-##人事管理系统
+##  STU Managering System
 
-###成员 
+### Team Member
 
-组长：张博文
-
-组员：程智勇 张永丰 张晶宇 
+Leader: Bowen Zhang
+Members: Zhiyong Cheng, Yongfeng Zhang, Jingyu Zhang 
